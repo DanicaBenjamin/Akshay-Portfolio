@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akshay Matthew</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #08171e;
+    color: #d8efed;
+    height: 100dvh;
+    overflow: hidden;
+    font-family: 'Silkscreen', monospace;
+}
+
+/* BACKGROUND */
+
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background:
+        linear-gradient(rgba(8,23,30,.88), rgba(8,23,30,.94)),
+        url("assets/blue.jpg") center/cover;
+    transition: opacity .5s ease;
+}
+
+.loading-screen.fade {
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* TITLE */
+
+.title {
+    color: #70dcd2;
+    font-size: clamp(18px, 4vw, 34px);
+    letter-spacing: 4px;
+    text-align: center;
+    text-shadow: 0 0 18px #70dcd244;
+}
+
+.subtitle {
+    color: #779ba5;
+    font-size: 9px;
+    margin-top: 13px;
+    letter-spacing: 3px;
+}
+
+/* KATANA */
+
+.katana-wrap {
+    margin-top: 45px;
+    width: min(460px, 85vw);
+    animation: float 2.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 12px #70dcd244);
+}
+
+.katana {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    shape-rendering: crispEdges;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-9px); }
+}
+
+/* SPARKLES */
+
+.sparkle {
+    position: absolute;
+    color: #70dcd2;
+    font-size: 15px;
+    animation: twinkle 1.5s steps(2) infinite;
+}
+
+.sparkle.one { top: 28%; left: 22%; }
+.sparkle.two { top: 38%; right: 20%; animation-delay: .5s; }
+.sparkle.three { bottom: 30%; left: 30%; animation-delay: .8s; }
+.sparkle.four { bottom: 35%; right: 27%; animation-delay: .3s; }
+
+@keyframes twinkle {
+    50% { opacity: .15; transform: scale(.7); }
+}
+
+/* LOADING BAR */
+
+.loading-container {
+    width: min(350px, 72vw);
+    margin-top: 45px;
+}
+
+.loading-info {
+    display: flex;
+    justify-content: space-between;
+    color: #779ba5;
+    font-size: 10px;
+    margin-bottom: 12px;
+}
+
+.loading-bar {
+    width: 100%;
+    height: 15px;
+    padding: 3px;
+    background: #0d222b;
+    border: 2px solid #28515d;
+}
+
+.loading-fill {
+    height: 100%;
+    width: 0%;
+    background: #70dcd2;
+    box-shadow: 0 0 12px #70dcd2;
+}
+
+.loading-hint {
+    color: #779ba5;
+    font-size: 9px;
+    margin-top: 25px;
+    animation: blink 1s steps(2) infinite;
+}
+
+@keyframes blink {
+    50% { opacity: .3; }
+}
+
+/* SLASH */
+
+.slash {
+    position: fixed;
+    z-index: 40;
+    top: 50%;
+    left: -160%;
+    width: 160vw;
+    height: 5px;
+    opacity: 0;
+    pointer-events: none;
+    background: #d8efed;
+    box-shadow:
+        0 0 10px #70dcd2,
+        0 0 30px #70dcd2,
+        0 0 60px #70dcd2;
+    transform: rotate(-25deg);
+}
+
+.slash.active {
+    animation: slash .55s ease-in forwards;
+}
+
+@keyframes slash {
+    0% { left: -160%; opacity: 0; }
+    20% { opacity: 1; }
+    100% { left: 160%; opacity: 0; }
+}
+
+/* SPLIT SCREEN
+   IMPORTANT: stays BEHIND loading screen until transition */
+
+.split {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.split-top,
+.split-bottom {
+    position: absolute;
+    width: 100%;
+    height: 51%;
+    background: #08171e;
+    transition: transform .85s cubic-bezier(.7,0,.2,1);
+}
+
+.split-top {
+    top: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 96%);
+}
+
+.split-bottom {
+    bottom: 0;
+    clip-path: polygon(0 4%, 100% 0, 100% 100%, 0 100%);
+}
+
+.split.open .split-top {
+    transform: translateY(-105%);
+}
+
+.split.open .split-bottom {
+    transform: translateY(105%);
+}
+
+.reveal-text {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #70dcd2;
+    font-size: clamp(25px, 5vw, 50px);
+    letter-spacing: 5px;
+}
+
+@media(max-width: 600px) {
+    .title { letter-spacing: 2px; }
+    .katana-wrap { width: 88vw; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="reveal-text">WELCOME.</div>
+
+<div class="loading-screen" id="loadingScreen">
+
+    <h1 class="title">AKSHAY MATTHEW</h1>
+    <p class="subtitle">PRESS START TO BEGIN</p>
+
+    <span class="sparkle one">✦</span>
+    <span class="sparkle two">✧</span>
+    <span class="sparkle three">✦</span>
+    <span class="sparkle four">✧</span>
+
+    <!-- PIXEL ART KATANA -->
+    <div class="katana-wrap">
+        <svg class="katana"
+             viewBox="0 0 480 130"
+             xmlns="http://www.w3.org/2000/svg">
+
+            <!-- Blade shadow -->
+            <path d="M133 43 H421 L449 48 L421 54 H133 Z"
+                  fill="#28515d"/>
+
+            <!-- Main blade -->
+            <path d="M133 32 H420 L452 45 L420 51 H133 Z"
+                  fill="#d8efed"/>
+
+            <!-- Blade underside -->
+            <path d="M133 44 H420 L452 45 L420 51 H133 Z"
+                  fill="#70dcd2"/>
+
+            <!-- Blade shine -->
+            <path d="M148 34 H406 L425 42 H148 Z"
+                  fill="#ffffff"/>
+
+            <!-- Blade tip -->
+            <path d="M420 32 L452 45 L420 51 Z"
+                  fill="#ffffff"/>
+
+            <!-- Guard -->
+            <path d="M117 24 H129 V59 H117 Z"
+                  fill="#70dcd2"/>
+            <path d="M107 28 H117 V55 H107 Z"
+                  fill="#28515d"/>
+            <path d="M99 34 H107 V49 H99 Z"
+                  fill="#779ba5"/>
+
+            <!-- Handle base -->
+            <rect x="28" y="34" width="70" height="16"
+                  fill="#152c36"/>
+
+            <!-- Handle wrapping -->
+            <path d="M32 30 H42 V54 H32 Z
+                     M48 30 H58 V54 H48 Z
+                     M64 30 H74 V54 H64 Z
+                     M80 30 H90 V54 H80 Z"
+                  fill="#70dcd2"/>
+
+            <!-- Dark wrapping gaps -->
+            <path d="M42 30 H48 V54 H42 Z
+                     M58 30 H64 V54 H58 Z
+                     M74 30 H80 V54 H74 Z"
+                  fill="#28515d"/>
+
+            <!-- Pommel -->
+            <rect x="17" y="32" width="11" height="20"
+                  fill="#779ba5"/>
+            <rect x="10" y="37" width="7" height="10"
+                  fill="#70dcd2"/>
+
+            <!-- Small decorative pixels -->
+            <rect x="190" y="19" width="5" height="5"
+                  fill="#70dcd2"/>
+            <rect x="290" y="61" width="5" height="5"
+                  fill="#70dcd2"/>
+            <rect x="350" y="20" width="4" height="4"
+                  fill="#ffffff"/>
+        </svg>
+    </div>
+
+    <!-- PROGRESS -->
+    <div class="loading-container">
+
+        <div class="loading-info">
+            <span>LOADING GAME</span>
+            <span id="percentage">0%</span>
+        </div>
+
+        <div class="loading-bar">
+            <div class="loading-fill" id="loadingFill"></div>
+        </div>
+
+    </div>
+
+    <p class="loading-hint">INITIALIZING...</p>
+
+</div>
+
+<div class="slash" id="slash"></div>
+
+<div class="split" id="split">
+    <div class="split-top"></div>
+    <div class="split-bottom"></div>
+</div>
+
+<script>
+const fill = document.getElementById("loadingFill");
+const percentage = document.getElementById("percentage");
+const slash = document.getElementById("slash");
+const split = document.getElementById("split");
+const loadingScreen = document.getElementById("loadingScreen");
+
+let progress = 0;
+
+const loading = setInterval(() => {
+
+    progress++;
+
+    fill.style.width = progress + "%";
+    percentage.textContent = progress + "%";
+
+    if (progress >= 100) {
+
+        clearInterval(loading);
+
+        setTimeout(() => {
+            slash.classList.add("active");
+        }, 300);
+
+        setTimeout(() => {
+            loadingScreen.classList.add("fade");
+            split.classList.add("open");
+        }, 650);
+
+        setTimeout(() => {
+            window.location.href = "menu.html";
+        }, 1550);
+    }
+
+}, 15);
+</script>
+
+</body>
+</html>
